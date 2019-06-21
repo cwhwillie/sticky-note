@@ -1,0 +1,60 @@
+.list {
+    width: 200px;
+    height: 500px;
+}
+
+.item {
+    border-bottom: 1px solid black;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.item:hover {
+    background-color: #e5e5e5;
+}
+
+.active {
+    background-color: #cccccc;
+}
+
+.active:hover {
+    background-color: #b2b2b2;
+}
+
+.content {
+    width: 165px;
+    line-height: 30px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.delete {
+    position: relative;
+    width: 20px;
+    height: 30px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.delete::before,
+.delete::after {
+    border-radius: 5px;
+    height: 4px;
+    margin-top: -2px;
+    content: '';
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    background: #000;
+}
+
+.delete::before {
+    transform: rotate(45deg);
+}
+
+.delete::after {
+    transform: rotate(-45deg);
+}

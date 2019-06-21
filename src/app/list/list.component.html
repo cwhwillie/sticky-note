@@ -1,0 +1,6 @@
+<div class="list">
+    <div *ngFor="let fakeNote of fakeNoteList; index as i" class="item" [ngClass]="{'active': activeNote == i}" (click)="active(i)">
+        <div class="content">{{fakeNote.description}}</div>
+        <div class="delete" (click)="delete(i)"></div>
+    </div>
+</div>

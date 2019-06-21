@@ -1,0 +1,8 @@
+p {
+    font-family: Lato;
+}
+
+.note-content {
+    min-width: 100px;
+    border: 1px solid black;
+}

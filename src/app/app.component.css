@@ -1,0 +1,19 @@
+p {
+    font-family: Lato;
+}
+
+table {
+    width: 100%;
+    border: 1px solid;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid;
+    padding: 0;
+}
+
+.board {
+    width: 100%;
+}
