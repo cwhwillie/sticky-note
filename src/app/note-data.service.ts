@@ -9,8 +9,13 @@ export class NoteDataService {
     this.noteList = dataStr ? JSON.parse(dataStr) : [];
   }
 
-  saveNote(note): void {
-    this.noteList.push(note);
+  saveNote(newNote): void {
+    let targetNoteIndex = this.noteList.findIndex(note => note.id === newNote.id);
+    if (targetNoteIndex > -1) {
+      this.noteList[targetNoteIndex] = newNote;
+    } else {
+      this.noteList.push(newNote);
+    }
     localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
     return;
   }
