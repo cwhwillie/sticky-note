@@ -5,7 +5,6 @@ import { fromEvent, Subscription } from 'rxjs';
 import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
 
 import { Note } from '../note';
-import { NOTES } from '../mock-notes';
 
 @Component({
   selector: 'app-board',
@@ -18,7 +17,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   private mouseClick$: any;
   private mouseClickSubscription: Subscription;
   private newNote: Note;
-  private notes = NOTES;
+  private notes: Note[];
   private bNewNoteShow: boolean;
 
   constructor() {}

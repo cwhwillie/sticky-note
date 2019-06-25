@@ -5,7 +5,6 @@ import { concatAll, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
-import { NOTES } from '../mock-notes';
 
 @Component({
   selector: 'app-note',
@@ -55,9 +54,9 @@ export class NoteComponent implements OnInit, AfterViewInit {
       })
     )
       .subscribe(pos => {
-        this.myNote.nativeElement.style.zIndex += NOTES.length;
-        this.myNote.nativeElement.style.left = pos.x + "px";
-        this.myNote.nativeElement.style.top = pos.y + "px";
+        /* this.myNote.nativeElement.style.zIndex += NOTES.length; */
+        this.myNote.nativeElement.style.left = pos.x + 'px';
+        this.myNote.nativeElement.style.top = pos.y + 'px';
       });
   }
 

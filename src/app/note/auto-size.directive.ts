@@ -5,10 +5,10 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class AutoSizeDirective {
 
-  constructor(private _element: ElementRef) { }
+  constructor(private element: ElementRef) { }
 
   @HostListener('input') onInput() {
-    this._element.nativeElement.style.height = 'auto';
-    this._element.nativeElement.style.height = this._element.nativeElement.scrollHeight + 'px';
+    this.element.nativeElement.style.height = 'auto';
+    this.element.nativeElement.style.height = this.element.nativeElement.scrollHeight + 'px';
   }
 }

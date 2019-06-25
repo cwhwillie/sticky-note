@@ -22,8 +22,8 @@ export class Note {
         this.title = options.title || '';
         this.content = options.content || '';
         this.color = options.color || '';
-        this.x = x || 0;
-        this.y = y || 0;
-        this.z = z || 0;
+        this.x = options.x || 0;
+        this.y = options.y || 0;
+        this.z = options.z || 0;
     }
 }
