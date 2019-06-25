@@ -1,18 +1,24 @@
-<div #myNote class="note" [style.left.px]="note.x" [style.top.px]="note.y"
- [style.background-color]="note.color" [style.z-index]="note.z">
+<div #myNote class="note" [style.left.px]="note.x" [style.top.px]="note.y" [style.background-color]="note.color" [style.z-index]="note.z">
     <div class="note-header"></div>
     <div class="note-content">
-    <table><tr><td>
-    <input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keypress)="onKeydown($event)">
-    </td></tr>
-    <tr><td>
-    <input type="color" *ngIf="!isReadonly" [(ngModel)]="color">
-    </td></tr>
-    <tr><td>
-    <div>
-        <textarea [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeydown($event)" [(ngModel)]="content"></textarea>
-    </div>
-    </td></tr>
-    </table>
+        <table>
+            <tr>
+                <td>
+                    <input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keypress)="onKeydown($event)">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="color" *ngIf="!isReadonly" [(ngModel)]="color">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <textarea [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
