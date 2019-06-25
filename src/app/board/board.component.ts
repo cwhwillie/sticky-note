@@ -5,6 +5,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
 
 import { Note } from '../note';
+import { NoteDataService } from '../note-data.service';
 
 @Component({
   selector: 'app-board',
@@ -20,15 +21,16 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   private notes: Note[];
   private bNewNoteShow: boolean;
 
-  constructor() {}
+  constructor(private noteService: NoteDataService) {}
 
   ngOnInit() {
+    this.notes = this.noteService.load();
     this.newNoteReset();
   }
 
   newNoteReset() {
     this.newNote = {
-      id: -1,
+      id: this.notes.length,
       title: '',
       content: '',
       color: '#C9FFFF',

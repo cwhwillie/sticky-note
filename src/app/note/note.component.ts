@@ -15,18 +15,18 @@ export class NoteComponent implements OnInit, AfterViewInit {
   @Input() note: Note;
   @ViewChild('myNote') myNote: ElementRef;
   isCreate: boolean;
+  isReadonly: boolean;
   title: string;
   content: string;
   color: string;
 
   private noteMoveSubscription: Subscription;
 
-  isReadonly = true;
-
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
     this.isCreate = this.note == null;
+    this.isReadonly = true;
     this.reset();
   }
 

@@ -4,7 +4,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keypress)="onKeydown($event)">
+                    <input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)">
                 </td>
             </tr>
             <tr>
