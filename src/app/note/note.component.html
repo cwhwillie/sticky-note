@@ -1,5 +1,5 @@
-<input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="note.summary" (keypress)="onKeypress($event)">
-<input type="color" *ngIf="!isReadonly" [(ngModel)]="note.color">
+<input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)">
+<input type="color" *ngIf="!isReadonly" [(ngModel)]="color">
 <div>
-    <textarea [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeypress($event)" [(ngModel)]="note.content"></textarea>
+    <textarea [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeydown($event)" [(ngModel)]="content"></textarea>
 </div>

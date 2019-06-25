@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
 
 @Component({
@@ -8,22 +9,20 @@ import { NoteDataService } from '../note-data.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  fakeNoteList = [
-    { description: "note1" },
-    { description: "note2dsfgdfgdfg dfsg dfgsdfg" }
-  ];
+  noteList: Note[];
   activeNote = -1;
 
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
+    this.noteList = this.noteService.load();
   }
 
-  delete(i: number) {
-    this.fakeNoteList.splice(i, 1);
+  delete(id: number) {
+    this.noteService.delete(id);
   }
 
-  active(i: number) {
-    this.activeNote = i;
+  active(id: number) {
+    this.activeNote = id;
   }
 }

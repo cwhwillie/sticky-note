@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
+import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
 
 @Component({
@@ -8,24 +9,27 @@ import { NoteDataService } from '../note-data.service';
   styleUrls: ['./note.component.css']
 })
 export class NoteComponent implements OnInit {
-  originNote = {
-    summary: 'test',
-    content: 'hello world',
-    color: '#ffffff'
-  };
-  note = {
-    summary: this.originNote.summary,
-    content: this.originNote.content,
-    color: this.originNote.color
-  };
+  @Input() note: Note;
+  isCreate: boolean;
+  title: string;
+  content: string;
+  color: string;
   isReadonly = true;
 
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
+    this.isCreate = this.note == null;
+    this.reset();
   }
 
-  onKeypress(event) {
+  reset() {
+    this.title = this.isCreate ? '' : this.note.title;
+    this.content = this.isCreate ? '' : this.note.content;
+    this.color = this.isCreate ? '' : this.note.color;
+  }
+
+  onKeydown(event: KeyboardEvent) {
     if (this.isReadonly) {
       return;
     }
@@ -34,15 +38,20 @@ export class NoteComponent implements OnInit {
         if (event.shiftKey) {
           return;
         }
-        this.noteService.saveNote(this.note);
+        const newNote = new Note({
+          title: this.title,
+          content: this.content,
+          color: this.color
+        });
+        this.noteService.save(newNote);
+        if (!this.isCreate) {
+          this.note = newNote;
+        }
+        this.reset();
         this.turnOffEditMode();
         break;
       case 'Escape':
-        this.note = {
-          summary: this.originNote.summary,
-          content: this.originNote.content,
-          color: this.originNote.color
-        };
+        this.reset();
         this.turnOffEditMode();
         break;
       default:
