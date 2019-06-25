@@ -4,7 +4,7 @@ export const NOTES: Note[] = [
     {
         summary: 'aaaaa',
         content: 'hahahah',
-        color: '#ffffff',
+        color: '#FFFF82',
         x: 20,
         y: 20,
         z: 1
@@ -12,9 +12,17 @@ export const NOTES: Note[] = [
     {
         summary: 'bbbb',
         content: 'hahahah',
-        color: '#333',
-        x: 20,
-        y: 20,
-        z: 1
+        color: '#FFD382',
+        x: 70,
+        y: 70,
+        z: 3
+    },
+    {
+        summary: 'ccc',
+        content: 'hahahah',
+        color: '#C9FFC9',
+        x: 70,
+        y: 290,
+        z: 3
     }
 ];

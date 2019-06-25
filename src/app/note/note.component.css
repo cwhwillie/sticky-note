@@ -1,8 +1,21 @@
 p {
     font-family: Lato;
 }
-
 .note-content {
-    min-width: 100px;
-    border: 1px solid black;
+    width: 100%;
+    border: 1px groove grey;
+}
+.note-header {
+    width: 100%;
+    height: 1rem;
+    border: 1px groove grey;
+    border-bottom: 0px;
+}
+.note {
+    width: 150px;
+    position: absolute;
+}
+input, textarea {
+    width: 100%;
+    background-color: transparent;
 }

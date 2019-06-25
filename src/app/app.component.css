@@ -15,5 +15,9 @@ td {
 }
 
 .board {
-    width: 100%;
+    width: 85%;
+    display: contents;
+}
+.list {
+    width: 15%;
 }
