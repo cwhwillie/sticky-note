@@ -15,9 +15,10 @@ td {
 }
 
 .board {
-    width: 85%;
     display: contents;
 }
+
 .list {
-    width: 15%;
+    width: 250px;
+    vertical-align: top;
 }
