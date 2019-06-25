@@ -27,5 +27,6 @@ export class NoteDataService {
 
   delete(id: number) {
     this.noteList = this.noteList.filter(note => note.id !== id);
+    localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
   }
 }
