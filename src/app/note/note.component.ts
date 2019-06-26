@@ -35,7 +35,7 @@ export class NoteComponent implements OnInit, AfterViewInit {
     this.id = this.isCreate ? -1 : this.note.id;
     this.title = this.isCreate ? '' : this.note.title;
     this.content = this.isCreate ? '' : this.note.content;
-    this.color = this.isCreate ? '' : this.note.color;
+    this.color = this.isCreate ? '#C9FFFF' : this.note.color;
   }
 
   ngAfterViewInit() {
@@ -71,6 +71,7 @@ export class NoteComponent implements OnInit, AfterViewInit {
         if (event.shiftKey) {
           return;
         }
+        debugger;
         const newNote = new Note({
           id: this.isCreate ? -1 : this.id,
           title: this.title,
