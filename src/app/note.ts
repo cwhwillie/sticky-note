@@ -1,6 +1,6 @@
 export class Note {
     static serial = 0;
-    id: number;
+    id?: number;
     title: string;
     content: string;
     color: string;

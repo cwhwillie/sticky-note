@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AfterViewInit, OnDestroy } from '@angular/core';
-import { ElementRef, ViewChild} from '@angular/core';
+import { ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
 
 import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-board',
@@ -14,40 +15,52 @@ import { NoteDataService } from '../note-data.service';
 })
 export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('noteBoard') noteBoard: ElementRef;
+  @ViewChild('newNoteElemt') newNoteElemt: ElementRef;
 
   private mouseClick$: any;
   private mouseClickSubscription: Subscription;
   private newNote: Note;
   private notes: Note[];
   private bNewNoteShow: boolean;
+  private bContentFocus: boolean;
 
-  constructor(private noteService: NoteDataService) {}
+  constructor(private noteService: NoteDataService,
+     public changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.notes = this.noteService.load();
     this.newNoteReset();
   }
 
+  onblur() {
+    debugger
+    console.log("123");
+  }
+
   newNoteReset() {
+    this.bNewNoteShow = false;
+    this.bContentFocus = false;
     this.newNote = {
-      id: this.notes.length,
       title: '',
       content: '',
-      color: '#C9FFFF',
-      x: 20,
-      y: 20,
-      z: 1
+      color: '',
+      x: 0, 
+      y: 0,
+      z: 0
     };
-    this.bNewNoteShow = false;
   }
 
   ngAfterViewInit() {
     this.mouseClick$ = fromEvent(this.noteBoard.nativeElement, 'click');
     this.mouseClickSubscription = this.mouseClick$.subscribe((evt: MouseEvent) => {
       if (evt.target === evt.currentTarget) {
-        this.newNote.x = evt.clientX;
-        this.newNote.y = evt.clientY;
-        this.bNewNoteShow = true;
+        this.newNoteReset();
+        setTimeout(() => {
+          this.newNote.x = evt.clientX;
+          this.newNote.y = evt.clientY;
+          this.bNewNoteShow = true;
+          this.bContentFocus = true;
+        }, 0)
       }
     });
   }

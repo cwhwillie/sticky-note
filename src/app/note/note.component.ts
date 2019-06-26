@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, SimpleChange, SimpleChanges } from '@angular/core';
+import { OnInit, AfterViewInit, OnChanges } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { concatAll, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
@@ -11,11 +11,15 @@ import { NoteDataService } from '../note-data.service';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent implements OnInit, AfterViewInit {
+export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() note: Note;
   @Input() isCreate: boolean;
+  @Input() isContentFocus: boolean;
+
   @ViewChild('myNote') myNote: ElementRef;
   @ViewChild('noteHeader') noteHeader: ElementRef;
+  @ViewChild('noteContent') noteContent: ElementRef;
+
   id: number;
   isReadonly: boolean;
   title: string;
@@ -60,6 +64,17 @@ export class NoteComponent implements OnInit, AfterViewInit {
         this.myNote.nativeElement.style.left = pos.x + 'px';
         this.myNote.nativeElement.style.top = pos.y + 'px';
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isContentFocus']) {
+      this.isReadonly = false;
+      setTimeout(() => {
+        this.content = '';
+        this.title = '';
+        this.noteContent.nativeElement.focus();
+      }, 0);
+    }
   }
 
   onKeydown(event: KeyboardEvent) {

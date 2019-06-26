@@ -1,5 +1,6 @@
 
 <div #noteBoard id="noteBoard">
-  <app-note #note *ngIf="bNewNoteShow" [note]="newNote" [isCreate]="true"></app-note>
-  <app-note *ngFor="let note of notes" [note]="note" [isCreate]="false"></app-note>
+  <app-note #newNoteElemt [hidden]="!bNewNoteShow" [note]="newNote"
+    [isCreate]="true" [isContentFocus]="bContentFocus"></app-note>
+  <app-note (mousedown)="newNoteReset()" *ngFor="let note of notes" [note]="note" [isCreate]="false"></app-note>
 </div>

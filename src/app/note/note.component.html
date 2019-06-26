@@ -15,7 +15,7 @@
             <tr>
                 <td>
                     <div>
-                        <textarea [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
+                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
                     </div>
                 </td>
             </tr>
