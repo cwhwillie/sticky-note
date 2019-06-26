@@ -15,6 +15,9 @@ export class ListComponent implements OnInit {
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
+    this.noteService.update$.subscribe(() => {
+      this.update();
+    });
     this.update();
   }
 
@@ -24,7 +27,6 @@ export class ListComponent implements OnInit {
 
   delete(id: number) {
     this.noteService.delete(id);
-    this.update();
   }
 
   active(id: number) {

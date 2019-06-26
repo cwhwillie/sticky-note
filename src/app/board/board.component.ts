@@ -28,6 +28,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
      public changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.noteService.update$.subscribe(() => {
+      this.notes = this.noteService.load();
+    });
     this.notes = this.noteService.load();
     this.newNoteReset();
   }
