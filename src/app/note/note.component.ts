@@ -40,19 +40,19 @@ export class NoteComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const mouseDown = fromEvent(this.noteHeader.nativeElement, 'mousedown');
-    const mouseUp = fromEvent(document.getElementById("noteBoard"), 'mouseup');
-    const mouseMove = fromEvent(document.getElementById("noteBoard"), 'mousemove');
+    const mouseUp = fromEvent(document.getElementById('noteBoard'), 'mouseup');
+    const mouseMove = fromEvent(document.getElementById('noteBoard'), 'mousemove');
 
     this.noteMoveSubscription = mouseDown.pipe(
       map((event: MouseEvent) => {
-        return mouseMove.pipe(takeUntil(mouseUp))
+        return mouseMove.pipe(takeUntil(mouseUp));
       }),
       concatAll(),
       withLatestFrom(mouseDown, (move: MouseEvent, down: MouseEvent) => {
         return {
           x: move.clientX - down.offsetX,
           y: move.clientY - down.offsetY,
-        }
+        };
       })
     )
       .subscribe(pos => {
