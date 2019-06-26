@@ -60,9 +60,20 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
       })
     )
       .subscribe(pos => {
-        /* this.myNote.nativeElement.style.zIndex += NOTES.length; */
         this.myNote.nativeElement.style.left = pos.x + 'px';
         this.myNote.nativeElement.style.top = pos.y + 'px';
+
+        if (!this.isCreate) {
+          const tmpNote = new Note({
+            id: this.id,
+            title: this.title,
+            content: this.content,
+            color: this.color,
+            x: pos.x,
+            y: pos.y
+          });
+          this.noteService.save(tmpNote);
+        }
       });
   }
 
