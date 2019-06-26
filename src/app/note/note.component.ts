@@ -14,6 +14,7 @@ import { NoteDataService } from '../note-data.service';
 export class NoteComponent implements OnInit, AfterViewInit {
   @Input() note: Note;
   @ViewChild('myNote') myNote: ElementRef;
+  @ViewChild('noteHeader') noteHeader: ElementRef;
   isCreate: boolean;
   isReadonly: boolean;
   title: string;
@@ -37,7 +38,7 @@ export class NoteComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const mouseDown = fromEvent(this.myNote.nativeElement, 'mousedown');
+    const mouseDown = fromEvent(this.noteHeader.nativeElement, 'mousedown');
     const mouseUp = fromEvent(document.body, 'mouseup');
     const mouseMove = fromEvent(document.body, 'mousemove');
 
