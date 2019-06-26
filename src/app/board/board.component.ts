@@ -24,6 +24,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private noteService: NoteDataService) {}
 
   ngOnInit() {
+    this.noteService.update$.subscribe(() => {
+      this.notes = this.noteService.load();
+    });
     this.notes = this.noteService.load();
     this.newNoteReset();
   }
