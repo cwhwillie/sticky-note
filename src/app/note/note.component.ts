@@ -71,7 +71,6 @@ export class NoteComponent implements OnInit, AfterViewInit {
         if (event.shiftKey) {
           return;
         }
-        debugger;
         const newNote = new Note({
           id: this.isCreate ? -1 : this.id,
           title: this.title,
