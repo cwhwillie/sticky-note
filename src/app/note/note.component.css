@@ -2,22 +2,29 @@ p {
     font-family: Lato;
 }
 .note-content {
-    width: 100%;
+    width: 163px;
     border: 1px groove grey;
     border-width: thin;
 }
 .note-header {
-    width: 100%;
+    width: 163px;
     height: 1rem;
     border: 1px groove grey;
     border-bottom: 0px;
     border-width: thin;
 }
 .note {
-    width: 150px;
+    width: 163px;
     position: absolute;
 }
-input, textarea {
-    width: 100%;
+input {
+    width: 120px;
     background-color: transparent;
+}
+textarea {
+    width: 150px;
+    background-color: transparent;
+}
+.note-color {
+    width: 20px;
 }

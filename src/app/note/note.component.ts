@@ -19,6 +19,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('myNote') myNote: ElementRef;
   @ViewChild('noteHeader') noteHeader: ElementRef;
   @ViewChild('noteContent') noteContent: ElementRef;
+  @ViewChild('noteColor') noteColor: ElementRef;
 
   id: number;
   isReadonly: boolean;
@@ -27,6 +28,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
   color: string;
 
   private noteMoveSubscription: Subscription;
+  private noteColorSubscription: Subscription;
 
   constructor(private noteService: NoteDataService) { }
 
@@ -71,6 +73,20 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
             color: this.color,
             x: pos.x,
             y: pos.y
+          });
+          this.noteService.save(tmpNote);
+        }
+      });
+
+      this.noteColorSubscription = fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
+        if (!this.isCreate) {
+          const tmpNote = new Note({
+            id: this.id,
+            title: this.title,
+            content: this.content,
+            color: this.color,
+            x: this.myNote.nativeElement.offsetLeft,
+            y: this.myNote.nativeElement.offsetTop
           });
           this.noteService.save(tmpNote);
         }
@@ -132,5 +148,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
 
   OnDestroy() {
     this.noteMoveSubscription.unsubscribe();
+    this.noteColorSubscription.unsubscribe();
   }
 }
