@@ -47,7 +47,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (evt.target === evt.currentTarget) {
         this.newNote.x = evt.clientX;
         this.newNote.y = evt.clientY;
-        this.newNote.z = this.notes.length + 1;
         this.bNewNoteShow = true;
       }
     });
