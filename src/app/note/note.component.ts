@@ -75,7 +75,9 @@ export class NoteComponent implements OnInit, AfterViewInit {
           id: this.isCreate ? -1 : this.id,
           title: this.title,
           content: this.content,
-          color: this.color
+          color: this.color,
+          x: this.myNote.nativeElement.offsetLeft,
+          y: this.myNote.nativeElement.offsetTop
         });
         this.noteService.save(newNote);
         if (!this.isCreate) {
