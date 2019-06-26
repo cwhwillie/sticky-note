@@ -13,9 +13,10 @@ import { NoteDataService } from '../note-data.service';
 })
 export class NoteComponent implements OnInit, AfterViewInit {
   @Input() note: Note;
+  @Input() isCreate: boolean;
   @ViewChild('myNote') myNote: ElementRef;
   @ViewChild('noteHeader') noteHeader: ElementRef;
-  isCreate: boolean;
+  id: number;
   isReadonly: boolean;
   title: string;
   content: string;
@@ -26,12 +27,12 @@ export class NoteComponent implements OnInit, AfterViewInit {
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
-    this.isCreate = this.note == null;
     this.isReadonly = true;
     this.reset();
   }
 
   reset() {
+    this.id = this.isCreate ? -1 : this.note.id;
     this.title = this.isCreate ? '' : this.note.title;
     this.content = this.isCreate ? '' : this.note.content;
     this.color = this.isCreate ? '' : this.note.color;
@@ -39,8 +40,8 @@ export class NoteComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const mouseDown = fromEvent(this.noteHeader.nativeElement, 'mousedown');
-    const mouseUp = fromEvent(document.body, 'mouseup');
-    const mouseMove = fromEvent(document.body, 'mousemove');
+    const mouseUp = fromEvent(document.getElementById("noteBoard"), 'mouseup');
+    const mouseMove = fromEvent(document.getElementById("noteBoard"), 'mousemove');
 
     this.noteMoveSubscription = mouseDown.pipe(
       map((event: MouseEvent) => {
@@ -71,6 +72,7 @@ export class NoteComponent implements OnInit, AfterViewInit {
           return;
         }
         const newNote = new Note({
+          id: this.isCreate ? -1 : this.id,
           title: this.title,
           content: this.content,
           color: this.color
@@ -78,8 +80,9 @@ export class NoteComponent implements OnInit, AfterViewInit {
         this.noteService.save(newNote);
         if (!this.isCreate) {
           this.note = newNote;
+        } else {
+          this.reset();
         }
-        this.reset();
         this.turnOffEditMode();
         break;
       case 'Escape':

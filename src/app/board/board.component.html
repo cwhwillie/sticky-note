@@ -1,5 +1,5 @@
 
-<div #noteBoard>
-  <app-note #note *ngIf="bNewNoteShow" [note]="newNote"></app-note>
-  <app-note *ngFor="let note of notes" [note]="note"></app-note>
+<div #noteBoard id="noteBoard">
+  <app-note #note *ngIf="bNewNoteShow" [note]="newNote" [isCreate]="true"></app-note>
+  <app-note *ngFor="let note of notes" [note]="note" [isCreate]="false"></app-note>
 </div>
