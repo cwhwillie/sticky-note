@@ -17,7 +17,7 @@ export class Note {
         y?: number,
         z?: number
     } = {}) {
-        if (options.id > -1) {
+        if (options.id === -1) {
             this.id = parseInt(localStorage.getItem('NOTE_SERIAL') || '0', 10);
             localStorage.setItem('NOTE_SERIAL', (this.id + 1).toString());
         } else {
