@@ -27,8 +27,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
   content: string;
   color: string;
 
-  private noteMoveSubscription: Subscription;
-  private noteColorSubscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private noteService: NoteDataService) { }
 
@@ -37,6 +36,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
     this.myNote.nativeElement.style.left = this.isCreate ? '0px' : this.note.x + 'px';
     this.myNote.nativeElement.style.top = this.isCreate ? '0px' : this.note.y + 'px';
     this.reset();
+    this.subscription = new Subscription();
   }
 
   reset() {
@@ -51,7 +51,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
     const mouseUp = fromEvent(document.getElementById('noteBoard'), 'mouseup');
     const mouseMove = fromEvent(document.getElementById('noteBoard'), 'mousemove');
 
-    this.noteMoveSubscription = mouseDown.pipe(
+    this.subscription.add(mouseDown.pipe(
       map((event: MouseEvent) => {
         return mouseMove.pipe(takeUntil(mouseUp));
       }),
@@ -68,11 +68,10 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
       this.myNote.nativeElement.style.top = pos.y + 'px';
       if (!this.isCreate) {
         this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
-        this.myNote.nativeElement.style.zIndex = this.noteService.updateOrder(this.id);
       }
-    });
+    }));
 
-    this.noteColorSubscription = fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
+    this.subscription.add(fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
       if (!this.isCreate) {
         const tmpNote = new Note({
           id: this.id,
@@ -84,7 +83,11 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
         });
         this.noteService.save(tmpNote);
       }
-    });
+    }));
+
+    this.subscription.add(fromEvent(this.myNote.nativeElement, 'mousedown').subscribe(() => {
+      this.myNote.nativeElement.style.zIndex = this.noteService.updateOrder(this.id);
+    }));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -142,7 +145,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   OnDestroy() {
-    this.noteMoveSubscription.unsubscribe();
-    this.noteColorSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
