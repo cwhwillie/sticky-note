@@ -118,12 +118,16 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
       setTimeout(() => {
         this.content = '';
         this.title = '';
+        this.noteContent.nativeElement.style.height = 'auto';
         this.noteContent.nativeElement.focus();
       }, 0);
     }
   }
 
   colorChange(newColor: string) {
+    if (this.isCreate) {
+      return;
+    }
     const newNote = new Note({
       id: this.isCreate ? -1 : this.id,
       title: this.title,
