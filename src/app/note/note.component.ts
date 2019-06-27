@@ -41,9 +41,9 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   }
 
   reset() {
-    this.title = this.srcNote.title;
-    this.content = this.srcNote.content;
-    this.color = this.srcNote.color;
+    this.title = this.isCreate ? '' : this.srcNote.title;
+    this.content = this.isCreate ? '' : this.srcNote.content;
+    this.color = this.isCreate ? '#C9FFFF' : this.srcNote.color;
     this.noteContent.nativeElement.style.height = 'auto';
     this.isReadonly = !this.isCreate;
   }
