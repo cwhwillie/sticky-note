@@ -29,8 +29,14 @@ input {
 textarea {
     width: 150px;
     background-color: transparent;
+    resize: none;
 }
 
 .note-color {
     width: 20px;
+}
+
+.read input,
+.read textarea {
+    border: 0;
 }
