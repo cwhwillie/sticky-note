@@ -1,6 +1,6 @@
 import {
   Component, Input, ViewChild, ElementRef, SimpleChanges,
-  OnInit, AfterViewInit, OnChanges
+  OnInit, OnDestroy, AfterViewInit, OnChanges
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { concatAll, map, takeUntil, withLatestFrom } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { NoteDataService } from '../note-data.service';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
+export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() note: Note;
   @Input() isCreate: boolean;
   @Input() isContentFocus: boolean;
@@ -146,7 +146,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
     this.isReadonly = true;
   }
 
-  OnDestroy() {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }
