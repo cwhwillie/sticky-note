@@ -11,4 +11,8 @@ export class AutoSizeDirective {
     this.element.nativeElement.style.height = 'auto';
     this.element.nativeElement.style.height = this.element.nativeElement.scrollHeight + 'px';
   }
+
+  @HostListener('dblclick') onDbclick() {
+    this.element.nativeElement.style.height = this.element.nativeElement.scrollHeight + 'px';
+  }
 }

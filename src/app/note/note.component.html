@@ -7,13 +7,13 @@
                     <input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)">
                 </td>
                 <td>
-                    <input #noteColor class="note-color" type="color" [(ngModel)]="color">
+                    <input #noteColor class="note-color" type="color" [(ngModel)]="color" (ngModelChange)="colorChange($event)">
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
                     <div>
-                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="turnOnEditMode()" cdkTextareaAutosize (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
+                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="turnOnEditMode()" (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
                     </div>
                 </td>
             </tr>
