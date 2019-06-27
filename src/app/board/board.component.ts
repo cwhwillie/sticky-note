@@ -25,14 +25,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   notes: Note[];
 
-  private isChild(target: Element, parent: Element) {
-    let element = target;
-    while (element != null && element !== parent) {
-      element = element.parentElement;
-    }
-    return element != null;
-  }
-
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
@@ -51,14 +43,17 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.subscription.add(fromEvent(document, 'click')
       .subscribe((event: MouseEvent) => {
-        if (!this.isChild(event.target as Element, this.newNoteElement.nativeElement)) {
+        if (event.target !== this.newNoteElement.nativeElement &&
+          !this.newNoteElement.nativeElement.contains(event.target)) {
           this.bNewNoteShow = false;
         }
       }));
   }
 
   click(event: MouseEvent) {
-    if (this.bNewNoteShow && !this.isChild(event.target as Element, this.newNoteElement.nativeElement)) {
+    if (this.bNewNoteShow &&
+      event.target !== this.newNoteElement.nativeElement &&
+      !this.newNoteElement.nativeElement.contains(event.target)) {
       this.bNewNoteShow = false;
       return;
     }
@@ -86,7 +81,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
         id: note.id,
         x: moveEvent.clientX - event.clientX + startX,
         y: moveEvent.clientY - event.clientY + startY
-       });
+      });
     });
   }
 
