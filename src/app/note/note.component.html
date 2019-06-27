@@ -4,7 +4,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)">
+                    <input #noteTitle type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)">
                 </td>
                 <td>
                     <input #noteColor class="note-color" type="color" [(ngModel)]="color" (ngModelChange)="colorChange($event)">

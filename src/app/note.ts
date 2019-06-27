@@ -24,7 +24,7 @@ export class Note {
         }
         this.title = options.title || '';
         this.content = options.content || '';
-        this.color = options.color || '';
+        this.color = options.color || '#C9FFFF';
         this.x = options.x || 0;
         this.y = options.y || 0;
         this.z = options.z || 0;
