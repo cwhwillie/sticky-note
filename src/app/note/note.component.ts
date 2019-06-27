@@ -1,5 +1,7 @@
-import { Component, Input, ViewChild, ElementRef, SimpleChange, SimpleChanges } from '@angular/core';
-import { OnInit, AfterViewInit, OnChanges } from '@angular/core';
+import {
+  Component, Input, ViewChild, ElementRef, SimpleChanges,
+  OnInit, AfterViewInit, OnChanges
+} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { concatAll, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
@@ -63,13 +65,13 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
         };
       })
     )
-    .subscribe(pos => {
-      this.myNote.nativeElement.style.left = pos.x + 'px';
-      this.myNote.nativeElement.style.top = pos.y + 'px';
-      if (!this.isCreate) {
-        this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
-      }
-    }));
+      .subscribe(pos => {
+        this.myNote.nativeElement.style.left = pos.x + 'px';
+        this.myNote.nativeElement.style.top = pos.y + 'px';
+        if (!this.isCreate) {
+          this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
+        }
+      }));
 
     this.subscription.add(fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
       if (!this.isCreate) {

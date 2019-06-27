@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AfterViewInit, OnDestroy } from '@angular/core';
-import { ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {
+  Component, OnInit, OnDestroy,
+  AfterViewInit, ViewChild,
+  ElementRef, ChangeDetectorRef
+} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
 import { Note } from '../note';
@@ -23,7 +25,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   private bContentFocus: boolean;
 
   constructor(private noteService: NoteDataService,
-              public changeDetector: ChangeDetectorRef) {}
+              public changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.noteService.update$.subscribe(e => {
