@@ -25,6 +25,7 @@ export class NoteDataService {
       this.noteList[index] = newNote;
     } else {
       this.noteList.push(newNote);
+      this.noteNum += 1;
     }
     this.update();
   }

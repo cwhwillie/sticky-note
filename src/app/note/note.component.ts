@@ -40,6 +40,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.isReadonly = true;
     this.myNote.nativeElement.style.left = this.isCreate ? '0px' : this.note.x + 'px';
     this.myNote.nativeElement.style.top = this.isCreate ? '0px' : this.note.y + 'px';
+    this.z = this.noteService.getNoteNum();
     this.reset();
     this.subscription = new Subscription();
   }
@@ -49,7 +50,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.title = this.isCreate ? '' : this.note.title;
     this.content = this.isCreate ? '' : this.note.content;
     this.color = this.isCreate ? '#C9FFFF' : this.note.color;
-    this.z = this.noteService.active(this.id);
   }
 
   ngAfterViewInit() {
@@ -92,7 +92,13 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     }));
 
     this.subscription.add(fromEvent(this.myNote.nativeElement, 'mousedown').subscribe(() => {
-      this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
+      if (!this.myNote.nativeElement.id && !this.isCreate) {
+        this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
+        this.newNoteHide.emit(this.myNote.nativeElement);
+      }
+      else if (this.isCreate) {
+        this.myNote.nativeElement.style.zIndex = this.noteService.getNoteNum();
+      }
     }));
 
     this.subscription.add(mouseDown.subscribe(() => {
