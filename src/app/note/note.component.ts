@@ -49,7 +49,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.title = this.isCreate ? '' : this.note.title;
     this.content = this.isCreate ? '' : this.note.content;
     this.color = this.isCreate ? '#C9FFFF' : this.note.color;
-    this.z = this.noteService.active(this.id);
   }
 
   ngAfterViewInit() {
