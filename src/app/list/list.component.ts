@@ -18,6 +18,9 @@ export class ListComponent implements OnInit {
     this.noteService.update$.subscribe(() => {
       this.update();
     });
+    this.noteService.active$.subscribe(e => {
+      this.activeNote = (e as CustomEvent).detail;
+    });
     this.update();
   }
 
@@ -30,6 +33,6 @@ export class ListComponent implements OnInit {
   }
 
   active(id: number) {
-    this.activeNote = id;
+    this.noteService.active(id);
   }
 }

@@ -9,12 +9,14 @@ export class NoteDataService {
   private noteList: Note[] = [];
   update$: Observable<Event>;
   private noteNum: number;
+  active$: Observable<Event>;
 
   constructor() {
     const dataStr = localStorage.getItem('NOTE_LIST');
     this.noteList = dataStr ? JSON.parse(dataStr) : [];
     this.update$ = fromEvent(document, 'note.update');
     this.noteNum = parseInt(localStorage.getItem('NOTE_SERIAL') || '0', 10);
+    this.active$ = fromEvent(document, 'active.update');
   }
 
   save(newNote: Note): void {
@@ -48,7 +50,7 @@ export class NoteDataService {
     localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
   }
 
-  updateOrder(id: number) {
+  active(id: number) {
     const index = this.noteList.findIndex(note => note.id === id);
     if (this.noteList[index].z === this.noteNum - 1) {
       return this.noteList[index].z;
@@ -59,7 +61,10 @@ export class NoteDataService {
       }
     });
     this.noteList[index].z = this.noteNum - 1;
-    localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
+    this.update();
+
+    document.dispatchEvent(new CustomEvent('active.update', {detail: id}));
+
     return this.noteList[index].z;
   }
 

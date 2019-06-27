@@ -86,7 +86,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
     }));
 
     this.subscription.add(fromEvent(this.myNote.nativeElement, 'mousedown').subscribe(() => {
-      this.myNote.nativeElement.style.zIndex = this.noteService.updateOrder(this.id);
+      this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
     }));
   }
 

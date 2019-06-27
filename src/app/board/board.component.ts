@@ -75,7 +75,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateOrder(id: number) {
-    this.noteService.updateOrder(id);
-    this.notes = this.noteService.load();
+    this.noteService.active(id);
   }
 }
