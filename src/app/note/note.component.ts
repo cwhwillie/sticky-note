@@ -75,10 +75,12 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
       return;
     }
 
-    if (change.isOpen) {
+    if (change.isOpen.currentValue) {
       setTimeout(() => {
         this.noteTitle.nativeElement.focus();
       }, 0);
+    } else {
+      this.reset();
     }
   }
 
