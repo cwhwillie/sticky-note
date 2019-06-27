@@ -22,7 +22,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   @ViewChild('noteContent') noteContent: ElementRef;
   @ViewChild('noteColor') noteColor: ElementRef;
 
-  @Output() newNoteHide = new EventEmitter();
+  //@Output() newNoteHide = new EventEmitter();
 
   id: number;
   isReadonly: boolean;
@@ -53,30 +53,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   }
 
   ngAfterViewInit() {
-    const mouseDown = fromEvent(this.noteHeader.nativeElement, 'mousedown');
-    const mouseUp = fromEvent(document.getElementById('noteBoard'), 'mouseup');
-    const mouseMove = fromEvent(document.getElementById('noteBoard'), 'mousemove');
-
-    this.subscription.add(mouseDown.pipe(
-      map((event: MouseEvent) => {
-        return mouseMove.pipe(takeUntil(mouseUp));
-      }),
-      concatAll(),
-      withLatestFrom(mouseDown, (move: MouseEvent, down: MouseEvent) => {
-        return {
-          x: move.clientX - down.offsetX,
-          y: move.clientY - down.offsetY,
-        };
-      })
-    )
-      .subscribe(pos => {
-        this.myNote.nativeElement.style.left = pos.x + 'px';
-        this.myNote.nativeElement.style.top = pos.y + 'px';
-        if (!this.isCreate) {
-          this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
-        }
-      }));
-
     this.subscription.add(fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
       if (!this.isCreate) {
         const tmpNote = new Note({
@@ -91,10 +67,11 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
       }
     }));
 
+    /*
     this.subscription.add(fromEvent(this.myNote.nativeElement, 'mousedown').subscribe(() => {
       if (!this.myNote.nativeElement.id && !this.isCreate) {
         this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
-        this.newNoteHide.emit(this.myNote.nativeElement);
+        //this.newNoteHide.emit(this.myNote.nativeElement);
       }
       else if (this.isCreate) {
         this.myNote.nativeElement.style.zIndex = this.noteService.getNoteNum();
@@ -104,11 +81,12 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.subscription.add(mouseDown.subscribe(() => {
       if (!this.myNote.nativeElement.id && !this.isCreate) {
         this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
-        this.newNoteHide.emit(this.myNote.nativeElement);
+        //this.newNoteHide.emit(this.myNote.nativeElement);
       } else if (this.isCreate) {
         this.myNote.nativeElement.style.zIndex = this.noteService.getNoteNum();
       }
     }));
+    */
   }
 
   ngOnChanges(changes: SimpleChanges) {

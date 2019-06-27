@@ -2,7 +2,9 @@ import {
   Component, OnInit, OnDestroy,
   AfterViewInit, ViewChild, ElementRef
 } from '@angular/core';
+
 import { fromEvent, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
@@ -23,6 +25,14 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private notes: Note[];
 
+  private isChild(target: Element, parent: Element) {
+    let element = target;
+    while (element != null && element !== parent) {
+      element = element.parentElement;
+    }
+    return element != null;
+  }
+
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
@@ -40,11 +50,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.subscription.add(fromEvent(document, 'click')
       .subscribe((event: MouseEvent) => {
-        let element = event.target as Element;
-        while (element != null && element !== this.newNoteElement.nativeElement) {
-          element = element.parentElement;
-        }
-        if (element == null) {
+        if (!this.isChild(event.target as Element, this.newNoteElement.nativeElement)) {
           this.bNewNoteShow = false;
         }
       }));
@@ -60,6 +66,20 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.bNewNoteShow = true;
 
     event.stopPropagation();
+  }
+
+  drag(note: Note, event: MouseEvent) {
+    const startX = note.x;
+    const startY = note.y;
+    fromEvent(this.noteBoard.nativeElement, 'mousemove').pipe(
+      takeUntil(fromEvent(document, 'mouseup'))
+    ).subscribe((moveEvent: MouseEvent) => {
+      this.noteService.updatePosition({
+        id: note.id,
+        x: moveEvent.clientX - event.clientX + startX,
+        y: moveEvent.clientY - event.clientY + startY
+       });
+    });
   }
 
   updateOrder(id: number) {

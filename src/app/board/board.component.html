@@ -2,7 +2,7 @@
     <div #newNoteElement class="note new" [style.left.px]="newNote.x" [style.top.px]="newNote.y" [hidden]="!bNewNoteShow">
         <app-note [note]="newNote" [isCreate]="true"></app-note>
     </div>
-    <div class="note" *ngFor="let note of notes" [style.left.px]="note.x" [style.top.px]="note.y" [style.z-index]="note.z">
+    <div class="note" *ngFor="let note of notes" (mousedown)="drag(note, $event)" [style.left.px]="note.x" [style.top.px]="note.y" [style.z-index]="note.z">
         <app-note (newNoteHide)="newNoteReset()" (focus)="updateOrder(note.id)" [note]="note" [isCreate]="false"></app-note>
     </div>
 </div>
