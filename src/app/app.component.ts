@@ -1,17 +1,12 @@
-import { Component, AfterViewInit } from '@angular/core';
-
-import { NoteDataService } from './note-data.service';
+import { Component,  } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
-  constructor(private noteService: NoteDataService) { }
+  constructor() { }
 
-  ngAfterViewInit() {
-    this.noteService.update();
-  }
 }

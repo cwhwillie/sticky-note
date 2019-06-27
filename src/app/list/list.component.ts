@@ -28,6 +28,8 @@ export class ListComponent implements OnInit, OnDestroy {
     this.subscription.add(this.noteService.active$.subscribe(e => {
       this.activeNote = (e as CustomEvent).detail;
     }));
+
+    this.noteList = this.noteService.load();
   }
 
   delete(id: number) {
