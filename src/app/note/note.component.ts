@@ -34,6 +34,8 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     this.isReadonly = true;
+    this.myNote.nativeElement.style.left = this.isCreate ? '0px' : this.note.x + 'px';
+    this.myNote.nativeElement.style.top = this.isCreate ? '0px' : this.note.y + 'px';
     this.reset();
   }
 
@@ -61,36 +63,28 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
         };
       })
     )
-      .subscribe(pos => {
-        this.myNote.nativeElement.style.left = pos.x + 'px';
-        this.myNote.nativeElement.style.top = pos.y + 'px';
+    .subscribe(pos => {
+      this.myNote.nativeElement.style.left = pos.x + 'px';
+      this.myNote.nativeElement.style.top = pos.y + 'px';
+      if (!this.isCreate) {
+        this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
+        this.myNote.nativeElement.style.zIndex = this.noteService.updateOrder(this.id);
+      }
+    });
 
-        if (!this.isCreate) {
-          const tmpNote = new Note({
-            id: this.id,
-            title: this.title,
-            content: this.content,
-            color: this.color,
-            x: pos.x,
-            y: pos.y
-          });
-          this.noteService.save(tmpNote);
-        }
-      });
-
-      this.noteColorSubscription = fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
-        if (!this.isCreate) {
-          const tmpNote = new Note({
-            id: this.id,
-            title: this.title,
-            content: this.content,
-            color: this.color,
-            x: this.myNote.nativeElement.offsetLeft,
-            y: this.myNote.nativeElement.offsetTop
-          });
-          this.noteService.save(tmpNote);
-        }
-      });
+    this.noteColorSubscription = fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
+      if (!this.isCreate) {
+        const tmpNote = new Note({
+          id: this.id,
+          title: this.title,
+          content: this.content,
+          color: this.color,
+          x: this.myNote.nativeElement.offsetLeft,
+          y: this.myNote.nativeElement.offsetTop
+        });
+        this.noteService.save(tmpNote);
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -119,7 +113,8 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
           content: this.content,
           color: this.color,
           x: this.myNote.nativeElement.offsetLeft,
-          y: this.myNote.nativeElement.offsetTop
+          y: this.myNote.nativeElement.offsetTop,
+          z: this.note.z
         });
         this.noteService.save(newNote);
         if (!this.isCreate) {

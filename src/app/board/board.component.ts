@@ -61,8 +61,10 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.newNote.x = evt.clientX;
           this.newNote.y = evt.clientY;
+          this.newNote.z = this.noteService.getNoteNum();
           this.bNewNoteShow = true;
           this.bContentFocus = true;
+          
         }, 0)
       }
     });
@@ -70,5 +72,10 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.mouseClickSubscription.unsubscribe();
+  }
+
+  updateOrder(id: number) {
+    this.noteService.updateOrder(id);
+    this.notes = this.noteService.load();
   }
 }

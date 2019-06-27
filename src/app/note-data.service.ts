@@ -8,11 +8,13 @@ import { Note } from './note';
 export class NoteDataService {
   private noteList: Note[] = [];
   update$: Observable<Event>;
+  private noteNum: number;
 
   constructor() {
     const dataStr = localStorage.getItem('NOTE_LIST');
     this.noteList = dataStr ? JSON.parse(dataStr) : [];
     this.update$ = fromEvent(document, 'note.update');
+    this.noteNum = parseInt(localStorage.getItem('NOTE_SERIAL') || '0', 10);
   }
 
   save(newNote: Note): void {
@@ -37,5 +39,31 @@ export class NoteDataService {
   private update() {
     localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
     document.dispatchEvent(new Event('note.update'));
+  }
+
+  updatePosition(detail): void {
+    const index = this.noteList.findIndex(note => note.id === detail.id);
+    this.noteList[index].x = detail.x;
+    this.noteList[index].y = detail.y;
+    localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
+  }
+
+  updateOrder(id: number) {
+    const index = this.noteList.findIndex(note => note.id === id);
+    if (this.noteList[index].z === this.noteNum - 1) {
+      return this.noteList[index].z;
+    }
+    this.noteList.forEach((note) => {
+      if (note.z > this.noteList[index].z) {
+        note.z -= 1;
+      }
+    });
+    this.noteList[index].z = this.noteNum - 1;
+    localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
+    return this.noteList[index].z;
+  }
+
+  getNoteNum() {
+    return this.noteNum;
   }
 }
