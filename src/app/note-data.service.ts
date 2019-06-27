@@ -38,9 +38,9 @@ export class NoteDataService {
     this.update();
   }
 
-  private update() {
+  update() {
     localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
-    document.dispatchEvent(new Event('note.update'));
+    document.dispatchEvent(new CustomEvent('note.update', {detail: this.noteList}));
   }
 
   updatePosition(detail): void {

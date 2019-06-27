@@ -15,17 +15,12 @@ export class ListComponent implements OnInit {
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
-    this.noteService.update$.subscribe(() => {
-      this.update();
+    this.noteService.update$.subscribe(e => {
+      this.noteList = (e as CustomEvent).detail;
     });
     this.noteService.active$.subscribe(e => {
       this.activeNote = (e as CustomEvent).detail;
     });
-    this.update();
-  }
-
-  update() {
-    this.noteList = this.noteService.load();
   }
 
   delete(id: number) {
