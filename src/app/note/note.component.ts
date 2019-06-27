@@ -68,6 +68,14 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
         this.save();
       }
     }));
+
+    this.subscription.add(fromEvent(document, 'mousedown').subscribe((event: MouseEvent) => {
+      if (!this.isCreate && !this.isReadonly) {
+        if (event.target !== this.myNote.nativeElement && !this.myNote.nativeElement.contains(event.target)) {
+          this.reset();
+        }
+      }
+    }));
   }
 
   ngOnChanges(change: SimpleChanges) {
