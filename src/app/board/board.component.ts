@@ -58,6 +58,11 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   click(event: MouseEvent) {
+    if (this.bNewNoteShow && !this.isChild(event.target as Element, this.newNoteElement.nativeElement)) {
+      this.bNewNoteShow = false;
+      return;
+    }
+
     if (event.target !== this.noteBoard.nativeElement) {
       return;
     }
