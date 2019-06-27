@@ -1,5 +1,8 @@
 <div class="list">
-    <div *ngFor="let note of noteList" class="item" [ngClass]="{'active': activeNote == note.id}" (click)="active(note.id)">
+    <div *ngFor="let note of noteList" class="item" [style.background-color]="note.color" (click)="active(note.id)">
+        <div class="selectWrap">
+            <div class="select" [ngClass]="{'active': activeNote == note.id}"></div>
+        </div>
         <div class="content">{{note.title}}</div>
         <div class="delete" (click)="delete(note.id)"></div>
     </div>

@@ -5,35 +5,49 @@
 
 .item {
     border-bottom: 1px solid black;
-    padding: 2px 5px;
+    padding: 10px 5px 5px 5px;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 .item:hover {
-    background-color: #e5e5e5;
+    opacity: 0.75;
+}
+
+.selectWrap {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.select {
+    display: block;
+    width: 0;
+    height: 0px;
+    border-style: solid;
+    border-width: 5px 0px 5px 8px;
+    border-color: transparent transparent transparent #000000;
+    opacity: 0;
 }
 
 .active {
-    background-color: #cccccc;
-}
-
-.active:hover {
-    background-color: #b2b2b2;
+    opacity: 1;
 }
 
 .content {
-    width: 215px;
-    line-height: 30px;
+    width: 200px;
+    line-height: 20px;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-left: 5px;
 }
 
 .delete {
     position: relative;
     width: 20px;
-    height: 30px;
+    height: 20px;
     display: inline-block;
     overflow: hidden;
 }
