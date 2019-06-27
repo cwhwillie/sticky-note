@@ -34,11 +34,11 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
+    this.subscription = new Subscription();
     this.isReadonly = true;
     this.myNote.nativeElement.style.left = this.isCreate ? '0px' : this.note.x + 'px';
     this.myNote.nativeElement.style.top = this.isCreate ? '0px' : this.note.y + 'px';
     this.reset();
-    this.subscription = new Subscription();
   }
 
   reset() {
