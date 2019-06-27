@@ -1,9 +1,9 @@
 import {
-  Component, Input, ViewChild, ElementRef, SimpleChanges,
+  Component, Input, Output, ViewChild, ElementRef, SimpleChanges, EventEmitter,
   OnInit, OnDestroy, AfterViewInit, OnChanges
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-import { concatAll, map, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { concatAll, map, takeUntil, withLatestFrom, take } from 'rxjs/operators';
 
 import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
@@ -23,11 +23,14 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   @ViewChild('noteContent') noteContent: ElementRef;
   @ViewChild('noteColor') noteColor: ElementRef;
 
+  @Output() newNoteHide = new EventEmitter();
+
   id: number;
   isReadonly: boolean;
   title: string;
   content: string;
   color: string;
+  z: number;
 
   private subscription: Subscription;
 
@@ -46,6 +49,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.title = this.isCreate ? '' : this.note.title;
     this.content = this.isCreate ? '' : this.note.content;
     this.color = this.isCreate ? '#C9FFFF' : this.note.color;
+    this.z = this.noteService.active(this.id);
   }
 
   ngAfterViewInit() {
@@ -90,6 +94,13 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.subscription.add(fromEvent(this.myNote.nativeElement, 'mousedown').subscribe(() => {
       this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
     }));
+
+    this.subscription.add(mouseDown.subscribe(() => {
+      if (!this.myNote.nativeElement.id) {
+        this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
+        this.newNoteHide.emit(this.myNote.nativeElement);
+      }
+    }));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -119,12 +130,13 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
           color: this.color,
           x: this.myNote.nativeElement.offsetLeft,
           y: this.myNote.nativeElement.offsetTop,
-          z: this.note.z
+          z: this.myNote.nativeElement.style.zIndex
         });
         this.noteService.save(newNote);
         if (!this.isCreate) {
           this.note = newNote;
         } else {
+          this.newNoteHide.emit();
           this.reset();
         }
         this.turnOffEditMode();
