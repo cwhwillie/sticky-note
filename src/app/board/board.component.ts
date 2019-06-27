@@ -20,10 +20,10 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private subscription: Subscription;
 
-  private newNote: Note;
-  private bNewNoteShow: boolean;
+  newNote: Note;
+  bNewNoteShow: boolean;
 
-  private notes: Note[];
+  notes: Note[];
 
   private isChild(target: Element, parent: Element) {
     let element = target;
