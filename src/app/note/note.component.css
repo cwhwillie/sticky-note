@@ -31,6 +31,8 @@ textarea {
     width: 20px;
 }
 
+.read .note-content,
+.read .note-header,
 .read input,
 .read textarea {
     border: 0;
