@@ -18,19 +18,23 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('newNoteElemt') newNoteElemt: ElementRef;
 
   private mouseClick$: any;
-  private mouseClickSubscription: Subscription;
+  private subscription: Subscription;
   private newNote: Note;
   private notes: Note[];
   private bNewNoteShow: boolean;
   private bContentFocus: boolean;
 
   constructor(private noteService: NoteDataService,
-              public changeDetector: ChangeDetectorRef) { }
+    public changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.noteService.update$.subscribe(e => {
+    this.subscription = new Subscription();
+
+    this.subscription.add(this.noteService.update$.subscribe(e => {
       this.notes = (e as CustomEvent).detail;
-    });
+    }));
+
+    this.notes = this.noteService.load();
     this.newNoteReset();
   }
 
@@ -49,7 +53,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.mouseClick$ = fromEvent(this.noteBoard.nativeElement, 'click');
-    this.mouseClickSubscription = this.mouseClick$.subscribe((evt: MouseEvent) => {
+    this.subscription.add(this.mouseClick$.subscribe((evt: MouseEvent) => {
       if (evt.target === evt.currentTarget) {
         this.newNoteReset();
         setTimeout(() => {
@@ -60,14 +64,14 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.bContentFocus = true;
         }, 0);
       }
-    });
-  }
-
-  ngOnDestroy() {
-    this.mouseClickSubscription.unsubscribe();
+    }));
   }
 
   updateOrder(id: number) {
     this.noteService.active(id);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
