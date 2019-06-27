@@ -40,6 +40,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscription.add(this.noteService.update$.subscribe(e => {
       this.notes = (e as CustomEvent).detail;
+      this.bNewNoteShow = false;
     }));
 
     this.notes = this.noteService.load();
@@ -68,7 +69,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     event.stopPropagation();
   }
 
-  drag(note: Note, event: MouseEvent) {
+  mousedown(note: Note, event: MouseEvent) {
+    this.noteService.active(note.id);
+
     const startX = note.x;
     const startY = note.y;
     fromEvent(this.noteBoard.nativeElement, 'mousemove').pipe(
@@ -80,10 +83,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
         y: moveEvent.clientY - event.clientY + startY
        });
     });
-  }
-
-  updateOrder(id: number) {
-    this.noteService.active(id);
   }
 
   ngOnDestroy() {
