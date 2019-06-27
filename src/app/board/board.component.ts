@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AfterViewInit, OnDestroy } from '@angular/core';
 import { ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
 
 import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
-import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-board',
