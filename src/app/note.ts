@@ -1,5 +1,4 @@
 export class Note {
-    static serial = 0;
     id?: number;
     title: string;
     content: string;
