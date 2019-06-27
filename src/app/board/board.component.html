@@ -1,4 +1,3 @@
-
 <div #noteBoard id="noteBoard">
   <app-note #newNoteElemt id="newNote" (newNoteHide)="newNoteReset()" [hidden]="!bNewNoteShow" [isContentFocus]="bContentFocus" [note]="newNote" [isCreate]="true"></app-note>
   <app-note *ngFor="let note of notes" (newNoteHide)="newNoteReset()" (focus)="updateOrder(note.id)" [note]="note" [isCreate]="false"></app-note>

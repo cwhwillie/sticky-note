@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AfterViewInit, OnDestroy } from '@angular/core';
-import { ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {
+  Component, OnInit, OnDestroy,
+  AfterViewInit, ViewChild,
+  ElementRef, ChangeDetectorRef
+} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
 
 import { Note } from '../note';
 import { NoteDataService } from '../note-data.service';
-import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-board',
@@ -25,19 +25,13 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   private bContentFocus: boolean;
 
   constructor(private noteService: NoteDataService,
-     public changeDetector: ChangeDetectorRef) {}
+              public changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.noteService.update$.subscribe(() => {
-      this.notes = this.noteService.load();
+    this.noteService.update$.subscribe(e => {
+      this.notes = (e as CustomEvent).detail;
     });
-    this.notes = this.noteService.load();
     this.newNoteReset();
-  }
-
-  onblur() {
-    debugger
-    console.log("123");
   }
 
   newNoteReset() {
@@ -47,7 +41,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
       title: '',
       content: '',
       color: '',
-      x: 0, 
+      x: 0,
       y: 0,
       z: 0
     };
@@ -64,8 +58,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.newNote.z = this.noteService.getNoteNum();
           this.bNewNoteShow = true;
           this.bContentFocus = true;
-          
-        }, 0)
+        }, 0);
       }
     });
   }
@@ -75,7 +68,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateOrder(id: number) {
-    this.noteService.updateOrder(id);
-    this.notes = this.noteService.load();
+    this.noteService.active(id);
   }
 }

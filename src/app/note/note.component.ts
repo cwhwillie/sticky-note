@@ -1,5 +1,7 @@
-import { Component, Input, Output, ViewChild, ElementRef, SimpleChange, SimpleChanges, EventEmitter } from '@angular/core';
-import { OnInit, AfterViewInit, OnChanges } from '@angular/core';
+import {
+  Component, Input, Output, ViewChild, ElementRef, SimpleChanges, EventEmitter,
+  OnInit, OnDestroy, AfterViewInit, OnChanges
+} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { concatAll, map, takeUntil, withLatestFrom, take } from 'rxjs/operators';
 
@@ -11,7 +13,7 @@ import { NoteDataService } from '../note-data.service';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
+export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() note: Note;
   @Input() isCreate: boolean;
   @Input() isContentFocus: boolean;
@@ -47,7 +49,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
     this.title = this.isCreate ? '' : this.note.title;
     this.content = this.isCreate ? '' : this.note.content;
     this.color = this.isCreate ? '#C9FFFF' : this.note.color;
-    this.z = this.noteService.updateOrder(this.id);
+    this.z = this.noteService.active(this.id);
   }
 
   ngAfterViewInit() {
@@ -67,13 +69,13 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
         };
       })
     )
-    .subscribe(pos => {
-      this.myNote.nativeElement.style.left = pos.x + 'px';
-      this.myNote.nativeElement.style.top = pos.y + 'px';
-      if (!this.isCreate) {
-        this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
-      }
-    }));
+      .subscribe(pos => {
+        this.myNote.nativeElement.style.left = pos.x + 'px';
+        this.myNote.nativeElement.style.top = pos.y + 'px';
+        if (!this.isCreate) {
+          this.noteService.updatePosition({ id: this.id, x: pos.x, y: pos.y });
+        }
+      }));
 
     this.subscription.add(fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
       if (!this.isCreate) {
@@ -89,20 +91,20 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }));
 
-    this.subscription.add(fromEvent(this.myNote.nativeElement, 'focus').subscribe(() => {
-      this.myNote.nativeElement.style.zIndex = this.noteService.updateOrder(this.id);
+    this.subscription.add(fromEvent(this.myNote.nativeElement, 'mousedown').subscribe(() => {
+      this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
     }));
 
     this.subscription.add(mouseDown.subscribe(() => {
       if (!this.myNote.nativeElement.id) {
-        this.myNote.nativeElement.style.zIndex = this.noteService.updateOrder(this.id);
+        this.myNote.nativeElement.style.zIndex = this.noteService.active(this.id);
         this.newNoteHide.emit(this.myNote.nativeElement);
       }
     }));
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['isContentFocus']) {
+    if (changes.isContentFocus) {
       this.isReadonly = false;
       setTimeout(() => {
         this.content = '';
@@ -156,7 +158,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
     this.isReadonly = true;
   }
 
-  OnDestroy() {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }
