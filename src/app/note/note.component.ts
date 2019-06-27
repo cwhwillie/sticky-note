@@ -18,6 +18,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.srcNote = note;
   }
   @Input() isCreate: boolean;
+  @Input() isOpen: boolean;
 
   @ViewChild('myNote') myNote: ElementRef;
   @ViewChild('noteHeader') noteHeader: ElementRef;
@@ -69,8 +70,16 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     }));
   }
 
-  ngOnChanges() {
-    this.reset();
+  ngOnChanges(change: SimpleChanges) {
+    if (!('isOpen' in change)) {
+      return;
+    }
+
+    if (change.isOpen) {
+      setTimeout(() => {
+        this.noteTitle.nativeElement.focus();
+      }, 0);
+    }
   }
 
   colorChange(newColor: string) {
