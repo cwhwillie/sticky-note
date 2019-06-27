@@ -91,7 +91,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['isContentFocus']) {
+    if (changes.isContentFocus) {
       this.isReadonly = false;
       setTimeout(() => {
         this.content = '';

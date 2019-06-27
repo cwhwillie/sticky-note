@@ -25,7 +25,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   private bContentFocus: boolean;
 
   constructor(private noteService: NoteDataService,
-     public changeDetector: ChangeDetectorRef) {}
+              public changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.noteService.update$.subscribe(() => {
@@ -35,11 +35,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.newNoteReset();
   }
 
-  onblur() {
-    debugger
-    console.log("123");
-  }
-
   newNoteReset() {
     this.bNewNoteShow = false;
     this.bContentFocus = false;
@@ -47,7 +42,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
       title: '',
       content: '',
       color: '',
-      x: 0, 
+      x: 0,
       y: 0,
       z: 0
     };
@@ -64,8 +59,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.newNote.z = this.noteService.getNoteNum();
           this.bNewNoteShow = true;
           this.bContentFocus = true;
-          
-        }, 0)
+        }, 0);
       }
     });
   }
