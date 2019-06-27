@@ -51,7 +51,7 @@ export class NoteDataService {
     localStorage.setItem('NOTE_LIST', JSON.stringify(this.noteList));
   }
 
-  active(id: number) {
+  active(id?: number) {
     const notes = this.noteList.filter(note => note.id === id);
 
     if (notes.length !== 1) {
