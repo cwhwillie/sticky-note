@@ -16,7 +16,6 @@ import { NoteDataService } from '../note-data.service';
 export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() note: Note;
   @Input() isCreate: boolean;
-  @Input() isContentFocus: boolean;
 
   @ViewChild('myNote') myNote: ElementRef;
   @ViewChild('noteHeader') noteHeader: ElementRef;

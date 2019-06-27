@@ -1,7 +1,6 @@
 import {
   Component, OnInit, OnDestroy,
-  AfterViewInit, ViewChild,
-  ElementRef, ChangeDetectorRef
+  AfterViewInit, ViewChild, ElementRef
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
@@ -15,17 +14,16 @@ import { NoteDataService } from '../note-data.service';
 })
 export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('noteBoard') noteBoard: ElementRef;
-  @ViewChild('newNoteElemt') newNoteElemt: ElementRef;
+  @ViewChild('newNoteElement') newNoteElement: ElementRef;
 
-  private mouseClick$: any;
   private subscription: Subscription;
-  private newNote: Note;
-  private notes: Note[];
-  private bNewNoteShow: boolean;
-  private bContentFocus: boolean;
 
-  constructor(private noteService: NoteDataService,
-    public changeDetector: ChangeDetectorRef) { }
+  private newNote: Note;
+  private bNewNoteShow: boolean;
+
+  private notes: Note[];
+
+  constructor(private noteService: NoteDataService) { }
 
   ngOnInit() {
     this.subscription = new Subscription();
@@ -35,36 +33,33 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
 
     this.notes = this.noteService.load();
-    this.newNoteReset();
-  }
-
-  newNoteReset() {
+    this.newNote = new Note();
     this.bNewNoteShow = false;
-    this.bContentFocus = false;
-    this.newNote = {
-      title: '',
-      content: '',
-      color: '',
-      x: 0,
-      y: 0,
-      z: 0
-    };
   }
 
   ngAfterViewInit() {
-    this.mouseClick$ = fromEvent(this.noteBoard.nativeElement, 'click');
-    this.subscription.add(this.mouseClick$.subscribe((evt: MouseEvent) => {
-      if (evt.target === evt.currentTarget) {
-        this.newNoteReset();
-        setTimeout(() => {
-          this.newNote.x = evt.clientX;
-          this.newNote.y = evt.clientY;
-          this.newNote.z = this.noteService.getNoteNum();
-          this.bNewNoteShow = true;
-          this.bContentFocus = true;
-        }, 0);
-      }
-    }));
+    this.subscription.add(fromEvent(document, 'click')
+      .subscribe((event: MouseEvent) => {
+        let element = event.target as Element;
+        while (element != null && element !== this.newNoteElement.nativeElement) {
+          element = element.parentElement;
+        }
+        if (element == null) {
+          this.bNewNoteShow = false;
+        }
+      }));
+  }
+
+  click(event: MouseEvent) {
+    if (event.target !== this.noteBoard.nativeElement) {
+      return;
+    }
+
+    this.newNote.x = event.offsetX;
+    this.newNote.y = event.offsetY;
+    this.bNewNoteShow = true;
+
+    event.stopPropagation();
   }
 
   updateOrder(id: number) {

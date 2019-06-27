@@ -1,7 +1,3 @@
-p {
-    font-family: Lato;
-}
-
 .note-content {
     width: 163px;
     border: 1px groove grey;
@@ -18,7 +14,6 @@ p {
 
 .note {
     width: 163px;
-    position: absolute;
 }
 
 input {

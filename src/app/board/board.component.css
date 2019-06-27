@@ -1,4 +1,13 @@
-div {
+.board {
+    position: relative;
     background-color: gainsboro;
     height: 100vh;
+}
+
+.note {
+    position: absolute;
+}
+
+.new {
+    z-index: 9999999;
 }
