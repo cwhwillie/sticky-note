@@ -1,11 +1,10 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appAutoSize]'
 })
 export class AutoSizeDirective {
 
-  //@Input() 
   constructor(private element: ElementRef) { }
 
   @HostListener('input') onInput() {
