@@ -1,8 +1,8 @@
 <div #noteBoard class="board" (click)="click($event)">
     <div #newNoteElement class="note new" (mousedown)="mousedown(newNote, $event, true)" [style.left.px]="newNote.x" [style.top.px]="newNote.y" [hidden]="!bNewNoteShow">
-        <app-note [note]="newNote" [isCreate]="true" [isOpen]="bNewNoteShow"></app-note>
+        <app-note [srcNote]="newNote" [isCreate]="true" [isOpen]="bNewNoteShow"></app-note>
     </div>
     <div class="note" *ngFor="let note of notes" (mousedown)="mousedown(note, $event)" [style.left.px]="note.x" [style.top.px]="note.y" [style.z-index]="note.z">
-        <app-note [note]="note" [isCreate]="false"></app-note>
+        <app-note [srcNote]="note" [isCreate]="false"></app-note>
     </div>
 </div>

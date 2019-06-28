@@ -13,10 +13,7 @@ import { NoteDataService } from '../note-data.service';
   styleUrls: ['./note.component.css']
 })
 export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  private srcNote: Note;
-  @Input() set note(note: Note) {
-    this.srcNote = note;
-  }
+  @Input() srcNote: Note;
   @Input() isCreate: boolean;
   @Input() isOpen: boolean;
 
