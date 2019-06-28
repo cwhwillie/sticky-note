@@ -100,14 +100,16 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   }
 
   onKeydown(event: KeyboardEvent) {
-    if (this.isReadonly) {
-      return;
-    }
-    if (!event.shiftKey && (event.code === 'Enter' || event.code === 'NumpadEnter')) {
-      this.save();
-      this.noteContent.nativeElement.style.height = 'auto';
-    } else if (event.code === 'Escape') {
+    if (!this.isReadonly && event.code === 'Escape') {
       this.reset();
+    }
+  }
+
+  onKeypress(event: KeyboardEvent) {
+    if (!this.isReadonly && !event.shiftKey &&
+      (event.code === 'Enter' || event.code === 'NumpadEnter')) {
+        this.save();
+        this.noteContent.nativeElement.style.height = 'auto';
     }
   }
 

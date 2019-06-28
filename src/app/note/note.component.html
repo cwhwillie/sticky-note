@@ -4,7 +4,7 @@
         <table>
             <tr>
                 <td>
-                    <input #noteTitle type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)">
+                    <input #noteTitle type="text" (dblclick)="turnOnEditMode()" [readonly]="isReadonly" [(ngModel)]="title" (keydown)="onKeydown($event)" (keypress)="onKeypress($event)">
                 </td>
                 <td>
                     <input #noteColor class="note-color" type="color" [(ngModel)]="color" (ngModelChange)="colorChange($event)">
@@ -13,7 +13,7 @@
             <tr>
                 <td colspan="2">
                     <div>
-                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="turnOnEditMode()" (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
+                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="turnOnEditMode()" (keydown)="onKeydown($event)" (keypress)="onKeypress($event)" [(ngModel)]="content" appAutoSize></textarea>
                     </div>
                 </td>
             </tr>
