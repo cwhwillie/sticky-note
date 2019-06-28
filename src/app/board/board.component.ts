@@ -70,7 +70,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     event.stopPropagation();
   }
 
-  mousedown(note: Note, event: MouseEvent) {
+  mousedown(note: Note, event: MouseEvent, isNew: boolean) {
     this.noteService.active(note.id);
 
     const startX = note.x;
@@ -78,11 +78,16 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     fromEvent(this.noteBoard.nativeElement, 'mousemove').pipe(
       takeUntil(fromEvent(document, 'mouseup'))
     ).subscribe((moveEvent: MouseEvent) => {
-      this.noteService.updatePosition({
-        id: note.id,
-        x: moveEvent.clientX - event.clientX + startX,
-        y: moveEvent.clientY - event.clientY + startY
-      });
+      if (isNew) {
+        this.newNote.x = moveEvent.clientX - event.clientX + startX;
+        this.newNote.y = moveEvent.clientY - event.clientY + startY;
+      } else {
+        this.noteService.updatePosition({
+          id: note.id,
+          x: moveEvent.clientX - event.clientX + startX,
+          y: moveEvent.clientY - event.clientY + startY
+        });
+      }
     });
   }
 
