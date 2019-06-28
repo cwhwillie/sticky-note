@@ -49,9 +49,12 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     this.isReadonly = !this.isCreate;
   }
 
-  save() {
-    this.srcNote.title = this.title;
-    this.srcNote.content = this.content;
+  save(bColorChangeOnly: boolean = false) {
+    if (!bColorChangeOnly) {
+      this.srcNote.title = this.title;
+      this.srcNote.content = this.content;
+      this.isReadonly = true;
+    }
     this.srcNote.color = this.color;
     if (this.isCreate) {
       this.srcNote.id = -1;
@@ -59,7 +62,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     } else {
       this.noteService.save(this.srcNote);
     }
-    this.isReadonly = true;
   }
 
   ngAfterViewInit() {
@@ -96,7 +98,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
     if (this.isCreate) {
       return;
     }
-    this.save();
+    this.save(true);
   }
 
   onKeydown(event: KeyboardEvent) {
