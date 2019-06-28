@@ -60,12 +60,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   }
 
   ngAfterViewInit() {
-    this.subscription.add(fromEvent(this.noteColor.nativeElement, 'keyup').subscribe(() => {
-      if (!this.isCreate) {
-        this.save();
-      }
-    }));
-
     this.subscription.add(fromEvent(document, 'mousedown').subscribe((event: MouseEvent) => {
       if (!this.isCreate && !this.isReadonly) {
         if (event.target !== this.myNote.nativeElement && !this.myNote.nativeElement.contains(event.target)) {
