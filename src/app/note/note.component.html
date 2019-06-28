@@ -13,7 +13,7 @@
             <tr>
                 <td colspan="2">
                     <div>
-                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="turnOnEditMode()" (keydown)="onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
+                        <textarea #noteContent [readonly]="isReadonly" (dblclick)="isReadonly && turnOnEditMode()" (keydown)="!isReadonly && onKeydown($event)" [(ngModel)]="content" appAutoSize></textarea>
                     </div>
                 </td>
             </tr>

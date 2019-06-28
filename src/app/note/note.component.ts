@@ -100,9 +100,6 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
   }
 
   onKeydown(event: KeyboardEvent) {
-    if (this.isReadonly) {
-      return;
-    }
     if (!event.shiftKey && (event.code === 'Enter' || event.code === 'NumpadEnter')) {
       this.save();
       this.noteContent.nativeElement.style.height = 'auto';
@@ -113,6 +110,7 @@ export class NoteComponent implements OnInit, AfterViewInit, OnChanges, OnDestro
 
   turnOnEditMode() {
     this.isReadonly = false;
+    this.noteContent.nativeElement.style.height = this.noteContent.nativeElement.scrollHeight + 'px';;
   }
 
   ngOnDestroy() {
